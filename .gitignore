@@ -1,2 +1,51 @@
-.venv
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Environment variables
 .env
+.env.*
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg
+*.egg-info/
+dist/
+build/
+*.whl
+
+# Distribution / packaging
+.eggs/
+sdist/
+wheels/
+
+# Pytest / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+coverage.xml
+
+# Mypy / type checkers
+.mypy_cache/
+.dmypy.json
+.pyright/
+
+# Ruff / linters
+.ruff_cache/
+
+# IDE / editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
