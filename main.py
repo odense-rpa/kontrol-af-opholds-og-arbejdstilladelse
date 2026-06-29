@@ -37,7 +37,11 @@ async def process_workqueue(workqueue: Workqueue):
 
                     sag = await sbsys_service.find_opholdssag_for_tjenstenr(medarbejder)
                     
-                    manuel_besked = await sbsys_service.kontroller_erindring_på_sag(sag)
+                    if sag is None:
+                        manuel_besked = "Arbejds- og opholdssag kunne ikke findes på medarbejder for givet tjenestenr"
+                    
+                    if manuel_besked == "" and sag is not None:
+                        manuel_besked = await sbsys_service.kontroller_erindring_på_sag(sag)
                     
                     if manuel_besked != "":
                         report(
@@ -46,6 +50,7 @@ async def process_workqueue(workqueue: Workqueue):
                             {
                                 "Cpr": medarbejder.cpr,
                                 "Navn": medarbejder.navn,
+                                "Tjenstenr": medarbejder.tjensetenr,
                                 "Årsag": manuel_besked                                
                             }
                         )
