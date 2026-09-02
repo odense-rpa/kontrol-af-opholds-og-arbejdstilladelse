@@ -2,6 +2,7 @@ from sbsys.manager import SbsysClientManager
 from .models import Medarbejder
 from automation_server_client import WorkItemError
 import logging
+import re
 from datetime import datetime, timezone, timedelta
 
 class SbsysService:
@@ -26,19 +27,46 @@ class SbsysService:
                 "SagsFelter": [
                     {
                         "Noegle": "EmploymentId",
-                        "Vaerdi": str(medarbejder.tjensetenr)
+                        "Vaerdi": medarbejder.tjenestenr
+                    },
+                    {
+                        "Noegle": "InstitutionCode",
+                        "Vaerdi": medarbejder.institutionsnøgle
                     }
                 ]
             }
         )
         
         if len(sager) == 1:
-            logger.info("Sag fundet")
+            logger.info("Sag opholds- og arbejdssag fundet")
             return sager[0]
         else:
             logger.info("Sag ikke fundet, sender medarbejder til manuel")
             return None
-        
+
+    async def find_ansættelsessag(self, medarbejder: Medarbejder) -> dict|None:
+        logger = logging.getLogger()
+        sager = await self.sbsys.sager.søg_sager(
+                    {
+                        "SagsStatusIds": [
+                            6
+                        ],
+                        "PrimaerPerson":{
+                            "CprNummer":medarbejder.cpr
+                        },
+                        "SagsSkabeloner":[
+                            "699"
+                        ],
+                    }
+                )
+                
+        if len(sager) == 1:
+            logger.info("Ansættelsessag fundet")
+            return sager[0]
+        else:
+            logger.info("Sag ikke fundet, sender medarbejder til manuel")
+            return None
+
     async def kontroller_dokumenter_på_sag(self, sags_id: str):
         logger = logging.getLogger()
         

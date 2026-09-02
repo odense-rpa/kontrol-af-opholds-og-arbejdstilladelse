@@ -1,6 +1,5 @@
 import re
 from pydantic import BaseModel, field_validator
-from typing import Optional
 
 def valider_cpr(v: str) -> str:
     v = v.strip()
@@ -14,7 +13,8 @@ def valider_cpr(v: str) -> str:
 class Medarbejder(BaseModel):
     cpr: str
     navn: str
-    tjensetenr: int
+    tjenestenr: str
+    institutionsnøgle: str
     statsborgerskab: str
     
     @field_validator("cpr")
