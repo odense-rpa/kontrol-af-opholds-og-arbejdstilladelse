@@ -83,9 +83,7 @@ async def process_workqueue(workqueue: Workqueue):
                     item.fail(str(e))
 
 
-if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
-    
+if __name__ == "__main__":    
     ats = AutomationServer.from_environment()
     workqueue = ats.workqueue()
 
