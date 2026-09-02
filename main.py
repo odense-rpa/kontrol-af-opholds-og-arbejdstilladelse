@@ -63,8 +63,11 @@ async def process_workqueue(workqueue: Workqueue):
                     
                     if manuel_besked == "" and sag is not None:
                         manuel_besked = await sbsys_service.kontroller_erindring_på_sag(sag)
+                        if manuel_besked == "":
+                            tracker.track_task(procesnavn)
                     
                     if manuel_besked != "":
+                        tracker.track_task(procesnavn)
                         report(
                             "kontrol-af-opholds-og-arbejdstilladelse",
                             "Manuel",
