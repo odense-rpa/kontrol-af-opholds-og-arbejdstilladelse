@@ -57,6 +57,16 @@ class SbsysService:
                         "SagsSkabeloner":[
                             "699"
                         ],
+                        "SagsFelter": [
+                            {
+                                "Noegle": "EmploymentId",
+                                "Vaerdi": medarbejder.tjenestenr
+                            },
+                            {
+                                "Noegle": "InstitutionCode",
+                                "Vaerdi": medarbejder.institutionsnøgle
+                            }
+                        ]
                     }
                 )
                 
